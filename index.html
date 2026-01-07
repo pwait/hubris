@@ -393,11 +393,118 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--accent);
         }
+
+        /* Pi Easter Egg */
+        .pi-trigger {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-family: 'EB Garamond', serif;
+            font-size: 0.5rem;
+            color: rgba(74, 124, 155, 0.1);
+            cursor: pointer;
+            z-index: 999;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .pi-trigger:hover {
+            color: rgba(74, 124, 155, 0.3);
+            transform: scale(1.2);
+        }
+
+        .pi-explosion {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .pi-particle {
+            position: absolute;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+            font-size: 1.5rem;
+            animation: explode 3s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes explode {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(0.5) rotate(0deg);
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(var(--rot));
+            }
+        }
+
+        .pi-wave {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            animation: wave 2s ease-out forwards;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        @keyframes wave {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(80);
+                opacity: 0;
+            }
+        }
+
+        .golden-ratio-spiral {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 400px;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9997;
+            opacity: 0;
+            animation: spiralFade 4s ease-out forwards;
+        }
+
+        @keyframes spiralFade {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) rotate(0deg) scale(0.5);
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) rotate(360deg) scale(1.5);
+            }
+        }
     </style>
 </head>
 <body>
     <div class="atmosphere"></div>
-    
+    <div class="pi-trigger">π</div>
+
     <div class="container">
         <header>
             <div class="logo">Wait & Co.</div>
@@ -479,12 +586,12 @@
     <script>
         // Scroll reveal animation
         const revealElements = document.querySelectorAll('.reveal');
-        
+
         const revealOnScroll = () => {
             revealElements.forEach(el => {
                 const elementTop = el.getBoundingClientRect().top;
                 const windowHeight = window.innerHeight;
-                
+
                 if (elementTop < windowHeight - 100) {
                     el.classList.add('visible');
                 }
@@ -493,6 +600,77 @@
 
         window.addEventListener('scroll', revealOnScroll);
         window.addEventListener('load', revealOnScroll);
+
+        // Pi Easter Egg
+        const piTrigger = document.querySelector('.pi-trigger');
+        const piDigits = '3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679';
+
+        piTrigger.addEventListener('click', () => {
+            // Create explosion container
+            const explosion = document.createElement('div');
+            explosion.className = 'pi-explosion';
+            document.body.appendChild(explosion);
+
+            // Create expanding waves
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const wave = document.createElement('div');
+                    wave.className = 'pi-wave';
+                    document.body.appendChild(wave);
+                    setTimeout(() => wave.remove(), 2000);
+                }, i * 300);
+            }
+
+            // Create golden ratio spiral SVG
+            const spiral = document.createElement('div');
+            spiral.className = 'golden-ratio-spiral';
+            spiral.innerHTML = `
+                <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 200 200 Q 200 100 300 100 Q 400 100 400 200 Q 400 300 300 300 Q 200 300 100 300 Q 0 300 0 200 Q 0 100 100 0"
+                          fill="none"
+                          stroke="rgba(74, 124, 155, 0.6)"
+                          stroke-width="2"
+                          stroke-dasharray="5,5"/>
+                </svg>
+            `;
+            document.body.appendChild(spiral);
+            setTimeout(() => spiral.remove(), 4000);
+
+            // Create particle explosion with pi digits
+            const particleCount = 50;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'pi-particle';
+
+                // Get random pi digit or symbol
+                const digit = i < piDigits.length ? piDigits[i] : 'π';
+                particle.textContent = digit;
+
+                // Random angle and distance
+                const angle = (Math.PI * 2 * i) / particleCount;
+                const distance = 200 + Math.random() * 400;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                const rot = Math.random() * 720 - 360;
+
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.setProperty('--rot', `${rot}deg`);
+                particle.style.left = `${centerX}px`;
+                particle.style.top = `${centerY}px`;
+                particle.style.animationDelay = `${Math.random() * 0.3}s`;
+
+                explosion.appendChild(particle);
+            }
+
+            // Cleanup
+            setTimeout(() => {
+                explosion.remove();
+            }, 3500);
+        });
     </script>
 </body>
 </html>
