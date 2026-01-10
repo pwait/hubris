@@ -285,6 +285,122 @@
             transform: translateX(4px);
         }
 
+        /* Contact form */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            max-width: 100%;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            font-family: 'EB Garamond', serif;
+            font-size: 1rem;
+            color: var(--text-primary);
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 0;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-dim);
+            opacity: 0.6;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-bottom-color: var(--accent);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: 'EB Garamond', serif;
+        }
+
+        .submit-btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+            background: transparent;
+            border: 1px solid var(--border);
+            padding: 1rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::after {
+            content: '→';
+            margin-left: 0.5rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        .submit-btn:hover::after {
+            transform: translateX(4px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .form-message {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .form-message.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .form-message.success {
+            color: var(--accent);
+            border: 1px solid var(--border);
+            background: var(--accent-glow);
+        }
+
+        .form-message.error {
+            color: #c97777;
+            border: 1px solid rgba(201, 119, 119, 0.3);
+            background: rgba(201, 119, 119, 0.1);
+        }
+
         .availability {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.75rem;
@@ -561,7 +677,22 @@
                     <div class="contact-info">
                         <h3>Inquiries</h3>
                         <p>If this resonates, reach out. We'll arrange a conversation to explore whether there's alignment.</p>
-                        <a href="mailto:phil.wait@me.com" class="contact-link">phil.wait@me.com</a>
+                        <form class="contact-form" id="contactForm">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" placeholder="Your name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" placeholder="Tell us about your business and what you're hoping to achieve..." required></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">Send inquiry</button>
+                            <div class="form-message" id="formMessage"></div>
+                        </form>
                     </div>
                     <div class="availability">
                         <div class="availability-status">
@@ -670,6 +801,114 @@
             setTimeout(() => {
                 explosion.remove();
             }, 3500);
+        });
+
+        // Contact Form Submission
+        const contactForm = document.getElementById('contactForm');
+        const formMessage = document.getElementById('formMessage');
+
+        // IMPORTANT: Replace this with your actual Slack webhook URL
+        // Get your webhook URL from: https://api.slack.com/messaging/webhooks
+        const SLACK_WEBHOOK_URL = 'YOUR_SLACK_WEBHOOK_URL_HERE';
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            try {
+                // Format message for Slack
+                const slackMessage = {
+                    text: '✨ New Contact Form Submission',
+                    blocks: [
+                        {
+                            type: 'header',
+                            text: {
+                                type: 'plain_text',
+                                text: '✨ New Inquiry from Wait & Co.',
+                                emoji: true
+                            }
+                        },
+                        {
+                            type: 'section',
+                            fields: [
+                                {
+                                    type: 'mrkdwn',
+                                    text: `*Name:*\n${formData.name}`
+                                },
+                                {
+                                    type: 'mrkdwn',
+                                    text: `*Email:*\n${formData.email}`
+                                }
+                            ]
+                        },
+                        {
+                            type: 'section',
+                            text: {
+                                type: 'mrkdwn',
+                                text: `*Message:*\n${formData.message}`
+                            }
+                        },
+                        {
+                            type: 'context',
+                            elements: [
+                                {
+                                    type: 'mrkdwn',
+                                    text: `Submitted at: ${new Date().toLocaleString('en-AU', { timeZone: 'Australia/Melbourne' })}`
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                const response = await fetch(SLACK_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(slackMessage)
+                });
+
+                if (response.ok) {
+                    // Show success message
+                    formMessage.textContent = 'Message sent successfully. We\'ll be in touch soon.';
+                    formMessage.className = 'form-message success visible';
+
+                    // Reset form
+                    contactForm.reset();
+
+                    // Hide message after 5 seconds
+                    setTimeout(() => {
+                        formMessage.classList.remove('visible');
+                    }, 5000);
+                } else {
+                    throw new Error('Failed to send message');
+                }
+            } catch (error) {
+                // Show error message
+                formMessage.textContent = 'Failed to send message. Please try again or email phil.wait@me.com directly.';
+                formMessage.className = 'form-message error visible';
+
+                console.error('Error:', error);
+
+                // Hide message after 7 seconds
+                setTimeout(() => {
+                    formMessage.classList.remove('visible');
+                }, 7000);
+            } finally {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send inquiry';
+            }
         });
     </script>
 </body>
