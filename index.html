@@ -321,6 +321,53 @@
             letter-spacing: normal;
         }
 
+        .eth-address {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .address-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            word-break: break-all;
+            color: var(--text-muted);
+        }
+
+        .copy-btn {
+            flex-shrink: 0;
+            padding: 0.25rem 0.75rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .copy-btn:hover { opacity: 1; }
+
+        .buy-now-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 2rem;
+            background: var(--text-primary);
+            color: var(--bg);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: opacity 0.2s;
+        }
+
+        .buy-now-btn:hover { opacity: 0.8; }
+
         /* Footer */
         footer {
             margin-top: 12vh;
@@ -560,15 +607,18 @@
                 <div class="contact-grid">
                     <div class="contact-info">
                         <h3>Inquiries</h3>
-                        <p>If this resonates, reach out. We'll arrange a conversation to explore whether there's alignment.</p>
-                        <a href="mailto:phil.wait@me.com" class="contact-link">phil.wait@me.com</a>
+                        <p>Send payment directly to our Ethereum wallet.</p>
+                        <div class="eth-address">
+                            <span class="address-text">0xc571144123cDD543b4EF1B9F91a800650cc953d8</span>
+                            <button class="copy-btn" onclick="navigator.clipboard.writeText('0xc571144123cDD543b4EF1B9F91a800650cc953d8').then(()=>{this.textContent='Copied';setTimeout(()=>this.textContent='Copy',1500)})">Copy</button>
+                        </div>
                     </div>
                     <div class="availability">
                         <div class="availability-status">
                             <span class="status-dot"></span>
                             <span>Current availability</span>
                         </div>
-                        <p>Accepting two new engagements for Q1 2026</p>
+                        <a href="ethereum:0xc571144123cDD543b4EF1B9F91a800650cc953d8" class="buy-now-btn">Buy Now</a>
                     </div>
                 </div>
             </section>
