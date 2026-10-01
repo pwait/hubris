@@ -44,10 +44,9 @@
             inset: 0;
             z-index: 0;
             background:
-                radial-gradient(ellipse 80% 70% at 50% 50%, rgba(8,8,8,0.15) 0%, rgba(8,8,8,0.75) 100%),
-                linear-gradient(rgba(8,8,8,0.55), rgba(8,8,8,0.7)),
+                radial-gradient(ellipse 85% 75% at 50% 50%, rgba(8,8,8,0) 0%, rgba(8,8,8,0.45) 100%),
                 url("simmy.jpg") center / cover no-repeat;
-            filter: grayscale(0.25) contrast(1.1);
+            filter: brightness(0.6) contrast(1.05);
             pointer-events: none;
             animation: watch 14s ease-in-out infinite alternate;
         }
@@ -122,6 +121,12 @@
                 transparent 70%);
             pointer-events: none;
         }
+
+        .hero-eyebrow, .hero-what, .hero-sub, .reveal-copy, .reveal-label {
+            text-shadow: 0 0 8px #000, 0 0 20px rgba(0,0,0,0.9);
+        }
+
+        .hero .hero-eyebrow, .hero .hero-sub, .hero .hero-scroll { color: #cfc9c2; }
 
         .hero-eyebrow {
             font-family: 'JetBrains Mono', monospace;
@@ -262,7 +267,7 @@
         }
 
         .billboard {
-            background: rgba(8, 8, 8, 0.55);
+            background: rgba(8, 8, 8, 0.3);
             backdrop-filter: blur(2px);
             padding: clamp(3rem, 7vw, 6rem) clamp(2rem, 5vw, 4rem);
             position: relative;
@@ -318,7 +323,7 @@
             position: relative;
             z-index: 1;
             overflow: hidden;
-            background: rgba(8, 8, 8, 0.45);
+            background: rgba(8, 8, 8, 0.15);
         }
 
         .reveal-label {
@@ -355,7 +360,7 @@
         .quotes {
             position: relative;
             z-index: 1;
-            background: rgba(8, 8, 8, 0.72);
+            background: rgba(8, 8, 8, 0.6);
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
             padding: clamp(5rem, 10vw, 8rem) clamp(1.5rem, 6vw, 5rem);
@@ -414,7 +419,7 @@
         footer {
             position: relative;
             z-index: 1;
-            background: rgba(8, 8, 8, 0.8);
+            background: rgba(8, 8, 8, 0.7);
             padding: 2.5rem clamp(1.5rem, 5vw, 4rem);
             display: flex;
             justify-content: space-between;
