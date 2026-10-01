@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CUN.ST — What is it?</title>
+    <title>CUN.ST — Who is watching?</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,9 +15,9 @@
 
         /* ─── Tokens ─── */
         :root {
-            --yellow:       #FED90F;
-            --yellow-glow:  rgba(254, 217, 15, 0.18);
-            --yellow-dim:   rgba(254, 217, 15, 0.06);
+            --yellow:       #8fd6d0;
+            --yellow-glow:  rgba(143, 214, 208, 0.18);
+            --yellow-dim:   rgba(143, 214, 208, 0.06);
             --red:          #CC1800;
             --dark:         #080808;
             --surface:      #101010;
@@ -25,7 +25,7 @@
             --text:         #f0ede8;
             --muted:        #6b6560;
             --dim:          #2e2c2a;
-            --border:       rgba(254, 217, 15, 0.07);
+            --border:       rgba(143, 214, 208, 0.07);
         }
 
         html { scroll-behavior: smooth; font-size: 16px; }
@@ -36,6 +36,29 @@
             font-family: 'EB Garamond', Georgia, serif;
             overflow-x: hidden;
             cursor: default;
+        }
+
+        /* ─── Simmy background ─── */
+        .simmy-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 80% 70% at 50% 50%, rgba(8,8,8,0.15) 0%, rgba(8,8,8,0.75) 100%),
+                linear-gradient(rgba(8,8,8,0.55), rgba(8,8,8,0.7)),
+                url("simmy.jpg") center / cover no-repeat;
+            filter: grayscale(0.25) contrast(1.1);
+            pointer-events: none;
+            animation: watch 14s ease-in-out infinite alternate;
+        }
+
+        @keyframes watch {
+            from { transform: scale(1); }
+            to   { transform: scale(1.06); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .simmy-bg { animation: none; }
         }
 
         /* ─── Scanlines ─── */
@@ -88,6 +111,7 @@
             padding: 5rem 2rem 3rem;
             position: relative;
             overflow: hidden;
+            z-index: 1;
         }
 
         .hero-glow {
@@ -128,8 +152,8 @@
             letter-spacing: -0.01em;
             color: var(--yellow);
             text-shadow:
-                0 0 60px rgba(254, 217, 15, 0.45),
-                0 0 150px rgba(254, 217, 15, 0.12);
+                0 0 60px rgba(143, 214, 208, 0.45),
+                0 0 150px rgba(143, 214, 208, 0.12);
             position: relative;
             z-index: 1;
             animation: flicker 6s ease-in-out infinite;
@@ -223,6 +247,8 @@
            BILLBOARDS
         ──────────────────────────────────────── */
         .billboards {
+            position: relative;
+            z-index: 1;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1px;
@@ -236,14 +262,15 @@
         }
 
         .billboard {
-            background: var(--dark);
+            background: rgba(8, 8, 8, 0.55);
+            backdrop-filter: blur(2px);
             padding: clamp(3rem, 7vw, 6rem) clamp(2rem, 5vw, 4rem);
             position: relative;
             overflow: hidden;
             transition: background 0.4s;
         }
 
-        .billboard:hover { background: var(--surface); }
+        .billboard:hover { background: rgba(16, 16, 16, 0.75); }
 
         .billboard::after {
             content: '';
@@ -279,7 +306,7 @@
         .bb-text.phase-2 { color: var(--text); }
         .bb-text.phase-3 {
             color: var(--yellow);
-            text-shadow: 0 0 30px rgba(254, 217, 15, 0.25);
+            text-shadow: 0 0 30px rgba(143, 214, 208, 0.25);
         }
 
         /* ────────────────────────────────────────
@@ -289,7 +316,9 @@
             padding: clamp(6rem, 12vw, 10rem) 2rem;
             text-align: center;
             position: relative;
+            z-index: 1;
             overflow: hidden;
+            background: rgba(8, 8, 8, 0.45);
         }
 
         .reveal-label {
@@ -301,17 +330,6 @@
             margin-bottom: 4rem;
         }
 
-        .puppet-wrap {
-            width: clamp(140px, 22vw, 200px);
-            margin: 0 auto 3.5rem;
-            filter: drop-shadow(0 0 30px rgba(254, 217, 15, 0.12));
-            animation: sway 4s ease-in-out infinite;
-        }
-
-        @keyframes sway {
-            0%, 100% { transform: rotate(-1.5deg); }
-            50%       { transform: rotate(1.5deg); }
-        }
 
         .reveal-headline {
             font-family: 'Bebas Neue', sans-serif;
@@ -335,7 +353,9 @@
            QUOTES
         ──────────────────────────────────────── */
         .quotes {
-            background: var(--surface);
+            position: relative;
+            z-index: 1;
+            background: rgba(8, 8, 8, 0.72);
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
             padding: clamp(5rem, 10vw, 8rem) clamp(1.5rem, 6vw, 5rem);
@@ -392,6 +412,9 @@
            FOOTER
         ──────────────────────────────────────── */
         footer {
+            position: relative;
+            z-index: 1;
+            background: rgba(8, 8, 8, 0.8);
             padding: 2.5rem clamp(1.5rem, 5vw, 4rem);
             display: flex;
             justify-content: space-between;
@@ -433,13 +456,15 @@
 </head>
 <body>
 
+    <div class="simmy-bg" role="img" aria-label="Close-up of Simmy the cat's pale blue-green eyes, watching"></div>
+
     <!-- ── HERO ── -->
     <section class="hero">
         <div class="hero-glow"></div>
-        <p class="hero-eyebrow">Springfield is asking</p>
+        <p class="hero-eyebrow">Something is watching</p>
         <p class="hero-what">What is</p>
         <h1 class="hero-brand">cun.st<span class="qmark">?</span></h1>
-        <p class="hero-sub">He's almost here<span class="cursor">_</span></p>
+        <p class="hero-sub">He sees you<span class="cursor">_</span></p>
         <p class="hero-scroll" aria-hidden="true">&#8595; &nbsp; scroll</p>
     </section>
 
@@ -450,25 +475,25 @@
             <span class="ticker-item ticker-dot">&middot;</span>
             <span class="ticker-item">HE'S COMING</span>
             <span class="ticker-item ticker-dot">&middot;</span>
-            <span class="ticker-item">SPRINGFIELD WILL NEVER BE THE SAME</span>
+            <span class="ticker-item">SIMMY SEES EVERYTHING</span>
             <span class="ticker-item ticker-dot">&middot;</span>
             <span class="ticker-item">HE'S ALMOST HERE</span>
             <span class="ticker-item ticker-dot">&middot;</span>
             <span class="ticker-item">HE'S A BAD WITTLE BOY</span>
             <span class="ticker-item ticker-dot">&middot;</span>
-            <span class="ticker-item">EVERYBODY WILL BE TALKING ABOUT CUN.ST</span>
+            <span class="ticker-item">HE KNOWS WHAT YOU DID</span>
             <span class="ticker-item ticker-dot">&middot;</span>
             <span class="ticker-item">WHAT IS CUN.ST?</span>
             <span class="ticker-item ticker-dot">&middot;</span>
             <span class="ticker-item">HE'S COMING</span>
             <span class="ticker-item ticker-dot">&middot;</span>
-            <span class="ticker-item">SPRINGFIELD WILL NEVER BE THE SAME</span>
+            <span class="ticker-item">SIMMY SEES EVERYTHING</span>
             <span class="ticker-item ticker-dot">&middot;</span>
             <span class="ticker-item">HE'S ALMOST HERE</span>
             <span class="ticker-item ticker-dot">&middot;</span>
             <span class="ticker-item">HE'S A BAD WITTLE BOY</span>
             <span class="ticker-item ticker-dot">&middot;</span>
-            <span class="ticker-item">EVERYBODY WILL BE TALKING ABOUT CUN.ST</span>
+            <span class="ticker-item">HE KNOWS WHAT YOU DID</span>
             <span class="ticker-item ticker-dot">&middot;</span>
         </div>
     </div>
@@ -493,66 +518,26 @@
     <section class="reveal reveal-on-scroll">
         <p class="reveal-label">The big reveal</p>
 
-        <div class="puppet-wrap">
-            <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A ventriloquist dummy">
-                <rect x="88" y="158" width="24" height="28" fill="#e8b030"/>
-                <ellipse cx="100" cy="88" rx="66" ry="70" fill="#f0c040"/>
-                <ellipse cx="100" cy="88" rx="66" ry="70" fill="none" stroke="#c8960a" stroke-width="1.5"/>
-                <ellipse cx="100" cy="22" rx="64" ry="22" fill="#1a0800"/>
-                <path d="M 36 30 Q 100 12 164 30 L 164 40 Q 100 20 36 40 Z" fill="#2a1000"/>
-                <path d="M 75 55 Q 100 50 125 55" fill="none" stroke="#c8960a" stroke-width="1" opacity="0.4"/>
-                <path d="M 70 135 Q 100 142 130 135" fill="none" stroke="#c8960a" stroke-width="1" opacity="0.3"/>
-                <ellipse cx="74" cy="80" rx="14" ry="15" fill="white"/>
-                <ellipse cx="126" cy="80" rx="14" ry="15" fill="white"/>
-                <ellipse cx="74" cy="73" rx="14" ry="6" fill="#d4a020" opacity="0.4"/>
-                <ellipse cx="126" cy="73" rx="14" ry="6" fill="#d4a020" opacity="0.4"/>
-                <circle cx="75" cy="81" r="8" fill="#1a3a70"/>
-                <circle cx="125" cy="81" r="8" fill="#1a3a70"/>
-                <circle cx="76" cy="82" r="4.5" fill="#080808"/>
-                <circle cx="126" cy="82" r="4.5" fill="#080808"/>
-                <circle cx="78" cy="79" r="2" fill="white"/>
-                <circle cx="128" cy="79" r="2" fill="white"/>
-                <path d="M 60 73 Q 74 65 88 73" fill="none" stroke="#a07810" stroke-width="1.5"/>
-                <path d="M 112 73 Q 126 65 140 73" fill="none" stroke="#a07810" stroke-width="1.5"/>
-                <circle cx="60" cy="100" r="13" fill="#d06030" opacity="0.3"/>
-                <circle cx="140" cy="100" r="13" fill="#d06030" opacity="0.3"/>
-                <ellipse cx="100" cy="103" rx="5" ry="3.5" fill="#c8960a" opacity="0.5"/>
-                <line x1="52" y1="118" x2="148" y2="118" stroke="#a07810" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.5"/>
-                <path d="M 65 115 Q 82 107 100 112 Q 118 107 135 115" fill="none" stroke="#a04020" stroke-width="2"/>
-                <path d="M 65 118 Q 100 150 135 118 L 135 124 Q 100 158 65 124 Z" fill="#7a0808"/>
-                <rect x="74"  y="118" width="12" height="9" rx="1.5" fill="#f8f5ec"/>
-                <rect x="89"  y="118" width="12" height="9" rx="1.5" fill="#f8f5ec"/>
-                <rect x="114" y="118" width="12" height="9" rx="1.5" fill="#f8f5ec"/>
-                <line x1="86"  y1="118" x2="86"  y2="127" stroke="#e0ddd5" stroke-width="0.5"/>
-                <line x1="101" y1="118" x2="101" y2="127" stroke="#e0ddd5" stroke-width="0.5"/>
-                <line x1="126" y1="118" x2="126" y2="127" stroke="#e0ddd5" stroke-width="0.5"/>
-                <ellipse cx="100" cy="144" rx="18" ry="7" fill="#b03030" opacity="0.85"/>
-                <ellipse cx="100" cy="172" rx="32" ry="11" fill="#1a1a1a"/>
-                <polygon points="66,170 100,178 66,186" fill="#CC1800"/>
-                <polygon points="134,170 100,178 134,186" fill="#CC1800"/>
-                <circle cx="100" cy="178" r="5.5" fill="#990000"/>
-            </svg>
-        </div>
 
         <h2 class="reveal-headline">That's it.</h2>
-        <p class="reveal-copy">Sometimes the greatest mystery in Springfield turns out to be exactly this simple. That's cun.st. He's a bad wittle boy.</p>
+        <p class="reveal-copy">The eyes in the dark were never a mystery. That's cun.st. That's Simmy. He's a bad wittle boy.</p>
     </section>
 
-    <!-- ── SPRINGFIELD REACTS ── -->
+    <!-- ── WITNESSES ── -->
     <section class="quotes reveal-on-scroll">
-        <p class="quotes-label">Springfield reacts</p>
+        <p class="quotes-label">Witnesses</p>
         <div class="quote-grid">
             <div class="quote">
-                <blockquote>I don't know what it is, but I want it. I want it so bad it's making my head hurt. Or maybe that's the TV.</blockquote>
-                <cite>H. Simpson &mdash; Springfield</cite>
+                <blockquote>I woke at 3 a.m. and he was just sitting there, staring at something I couldn't see. He didn't blink. I did.</blockquote>
+                <cite>Anonymous &mdash; The Hallway</cite>
             </div>
             <div class="quote">
-                <blockquote>Everyone at the nuclear plant is talking about it. Even Mr. Burns muttered something about a cun.st during the quarterly review.</blockquote>
-                <cite>A. Bouvier-Simpson &mdash; Springfield</cite>
+                <blockquote>Things go missing. Pens, socks, my sense of calm. He watches me look for them. He knows exactly where they are.</blockquote>
+                <cite>Anonymous &mdash; The Kitchen</cite>
             </div>
             <div class="quote">
-                <blockquote>I don't get it. But everyone else seems to, so I've been pretending I do for about three weeks now.</blockquote>
-                <cite>B. Simpson &mdash; Springfield Elementary</cite>
+                <blockquote>I tried to look away first. I lost. I always lose.</blockquote>
+                <cite>Anonymous &mdash; The Windowsill</cite>
             </div>
         </div>
     </section>
