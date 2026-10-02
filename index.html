@@ -23,8 +23,8 @@
             --surface:      #101010;
             --surface2:     #161616;
             --text:         #f0ede8;
-            --muted:        #6b6560;
-            --dim:          #2e2c2a;
+            --muted:        #c9c3bc;
+            --dim:          #9a948d;
             --border:       rgba(143, 214, 208, 0.07);
         }
 
@@ -44,9 +44,9 @@
             inset: 0;
             z-index: 0;
             background:
-                radial-gradient(ellipse 85% 75% at 50% 50%, rgba(8,8,8,0) 0%, rgba(8,8,8,0.45) 100%),
+                radial-gradient(ellipse 85% 75% at 50% 50%, rgba(8,8,8,0) 0%, rgba(8,8,8,0.3) 100%),
                 url("simmy.jpg") center / cover no-repeat;
-            filter: brightness(0.6) contrast(1.05);
+            filter: brightness(0.85) contrast(1.05);
             pointer-events: none;
             animation: watch 14s ease-in-out infinite alternate;
         }
@@ -122,8 +122,8 @@
             pointer-events: none;
         }
 
-        .hero-eyebrow, .hero-what, .hero-sub, .reveal-copy, .reveal-label {
-            text-shadow: 0 0 8px #000, 0 0 20px rgba(0,0,0,0.9);
+        .hero-eyebrow, .hero-what, .hero-sub, .reveal-copy, .reveal-label, .bb-num, .bb-text, .quote blockquote, .quote cite {
+            text-shadow: 0 0 6px #000, 0 0 16px #000, 0 0 30px rgba(0,0,0,0.8);
         }
 
         .hero .hero-eyebrow, .hero .hero-sub, .hero .hero-scroll { color: #cfc9c2; }
@@ -267,7 +267,7 @@
         }
 
         .billboard {
-            background: rgba(8, 8, 8, 0.3);
+            background: rgba(8, 8, 8, 0.22);
             backdrop-filter: blur(2px);
             padding: clamp(3rem, 7vw, 6rem) clamp(2rem, 5vw, 4rem);
             position: relative;
@@ -323,7 +323,7 @@
             position: relative;
             z-index: 1;
             overflow: hidden;
-            background: rgba(8, 8, 8, 0.15);
+            background: rgba(8, 8, 8, 0.08);
         }
 
         .reveal-label {
@@ -360,7 +360,7 @@
         .quotes {
             position: relative;
             z-index: 1;
-            background: rgba(8, 8, 8, 0.6);
+            background: rgba(8, 8, 8, 0.4);
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
             padding: clamp(5rem, 10vw, 8rem) clamp(1.5rem, 6vw, 5rem);
@@ -419,7 +419,7 @@
         footer {
             position: relative;
             z-index: 1;
-            background: rgba(8, 8, 8, 0.7);
+            background: rgba(8, 8, 8, 0.5);
             padding: 2.5rem clamp(1.5rem, 5vw, 4rem);
             display: flex;
             justify-content: space-between;
